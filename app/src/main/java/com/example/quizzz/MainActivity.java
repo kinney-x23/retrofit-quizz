@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Pytanie>> call, Throwable throwable) {
+                textView.setText("nie działa");
+
             }
         });
 
