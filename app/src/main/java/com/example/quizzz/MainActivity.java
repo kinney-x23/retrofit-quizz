@@ -47,24 +47,31 @@ public class MainActivity extends AppCompatActivity {
         radioButtonC = findViewById(R.id.radioButton3);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://my-json-server.typicode.com/kinney-x23/retrofit_jsonPytania")
+                .baseUrl("https://raw.githubusercontent.com/kinney-x23/retrofit_jsonPytania/main/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        //mamy zbudowanego retrofita
+
         Placeholder jsonPlaceHolder = retrofit.create(Placeholder.class);
+        //zbiera pytania z plliku db
         Call<List<Pytanie>> call = jsonPlaceHolder.getPytania();
+        //wiocha
         call.enqueue(new Callback<List<Pytanie>>() {
             @Override
-            public void onResponse(Call<List<Pytanie>> call, Response<List<Pytanie>> response) {
+            public void onResponse(Call<List<Pytanie>> call, Response<List<Pytanie>> response)
+                {
                 if(!response.isSuccessful()){
-                    Toast.makeText(MainActivity.this,response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            response.code(),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
                     pytaniaZInternetu = response.body();
+                    textView.setText(pytaniaZInternetu.get(0).getTrescPytania());
                     wypiszPytanie(0);
 
-            }
+                }
 
             @Override
             public void onFailure(Call<List<Pytanie>> call, Throwable throwable) {
